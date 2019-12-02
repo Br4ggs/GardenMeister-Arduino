@@ -4,6 +4,7 @@
 #include "GroundMoistureSensorController.h"
 #include "DHT11SensorController.h"
 #include "WaterPumpController.h"
+#include "NetController.h"
 
 //NEVER DO ANY INITIALIZATION BEFORE SETUP!!
 
@@ -29,6 +30,7 @@ WaterPumpController *waterPumpController;
 ISensor *grndSensor;
 ISensor *dht11Sensor;
 
+NetController *netController;
 
 void setup() {
 #ifdef REGULATOR_DEBUG
@@ -39,6 +41,7 @@ void setup() {
   waterPumpController = new WaterPumpController();
   grndSensor = new GroundMoistureSensorController();
   dht11Sensor = new DHT11SensorController();
+  netController = new NetController();
 }
 
 void loop() {

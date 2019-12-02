@@ -11,12 +11,12 @@ class NetController
 private:
     WiFiClient wifi;
     //HttpClient http;
-    char ssid[] = SECRET_SSID;
-    char pass[] = SECRET_PASS;
-    char serverAddress[] = "xxx.xxx.xxx.xxx";
-    int port = 5000;
+    //char serverAddress[] = "xxx.xxx.xxx.xxx";
+    //int port = 5000;
     IPAddress ip;
     int status = WL_IDLE_STATUS;
+    const char ssid[24] = SECRET_SSID;
+    const char pass[11] = SECRET_PASS;
 public:
     NetController();
 };
