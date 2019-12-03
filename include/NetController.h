@@ -6,11 +6,6 @@
 #include <ArduinoHttpClient.h>
 #include <WiFi101.h>
 
-enum DHT11data
-{
-    Json = "application/json"
-};
-
 class NetController
 {
 private:
@@ -24,9 +19,8 @@ private:
     int status = WL_IDLE_STATUS;
 public:
     NetController();
-    //return types on these?
     String Get(const char *path);
-    void Post(const char *path, const char *postData, const char *contentType);
+    String Post(const char *path, const char *postData, const char *contentType);
 };
 
 #endif

@@ -15,7 +15,6 @@ NetController::NetController()
     ip = WiFi.localIP();
     DEBUG_LOG("Connected, ip is:");
     DEBUG_LOG(ip);
-    //todo: add delay(?)
 }
 
 String NetController::Get(const char *path)
@@ -30,6 +29,20 @@ String NetController::Get(const char *path)
     DEBUG_LOG(statusCode);
 
     http.stop();
-    //TODO: add delay(?)
+    return response;
+}
+
+String NetController::Post(const char *path, const char *postData, const char *contentType)
+{
+    DEBUG_LOG("Starting post request");
+    http.post(path, contentType, postData);
+
+    int statusCode = http.responseStatusCode();
+    String response = http.responseBody();
+
+    DEBUG_LOG("Post request ended with status code:");
+    DEBUG_LOG(statusCode);
+
+    http.stop();
     return response;
 }

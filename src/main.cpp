@@ -47,10 +47,14 @@ void setup() {
 void loop() {
   DEBUG_LOG("---------------");
 
-  char path[] = "/api/todoitems";
-  String rsp = netController->Get(path);
+  // char path[] = "/api/todoitems";
+  // char postData[] = "{\"name\":\"Arduino Test\",\"isComplete\":true}";
+  // char contentType[] = "application/json";
+  // String rsp = netController->Get(path);
+  // String rsp = netController->Post(path, postData, contentType);
 
-  DEBUG_LOG(rsp);
+  // DEBUG_LOG("---RESPONSE---");
+  // DEBUG_LOG(rsp);
 
   // DEBUG_LOG("GROUND SENSOR");
   // grndSensor->MeasureSensor();
