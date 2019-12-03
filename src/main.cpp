@@ -45,30 +45,29 @@ void setup() {
 }
 
 void loop() {
-#ifdef REGULATOR_DEBUG
-  if(Serial.available()) {
-    String data = Serial.readStringUntil('\n');
-    DEBUG_LOG(data);
-  }
-#endif
   DEBUG_LOG("---------------");
 
-  DEBUG_LOG("GROUND SENSOR");
-  grndSensor->MeasureSensor();
-  int sensorData = grndSensor->GetSensorData();
-  DEBUG_LOG("ground moisture:");
-  DEBUG_LOG(sensorData);
+  char path[] = "/api/todoitems";
+  String rsp = netController->Get(path);
 
-  DEBUG_LOG("---------------");
+  DEBUG_LOG(rsp);
 
-  DEBUG_LOG("DHT11 SENSOR");
-  dht11Sensor->MeasureSensor();
-  float humidityData = dht11Sensor->GetSensorData(DHT11data::HUMIDITY);
-  float temperatureData = dht11Sensor->GetSensorData(DHT11data::TEMPERATURE);
-  DEBUG_LOG("humidity:");
-  DEBUG_LOG(humidityData);
-  DEBUG_LOG("temperature");
-  DEBUG_LOG(temperatureData);
+  // DEBUG_LOG("GROUND SENSOR");
+  // grndSensor->MeasureSensor();
+  // int sensorData = grndSensor->GetSensorData();
+  // DEBUG_LOG("ground moisture:");
+  // DEBUG_LOG(sensorData);
+
+  // DEBUG_LOG("---------------");
+
+  // DEBUG_LOG("DHT11 SENSOR");
+  // dht11Sensor->MeasureSensor();
+  // float humidityData = dht11Sensor->GetSensorData(DHT11data::HUMIDITY);
+  // float temperatureData = dht11Sensor->GetSensorData(DHT11data::TEMPERATURE);
+  // DEBUG_LOG("humidity:");
+  // DEBUG_LOG(humidityData);
+  // DEBUG_LOG("temperature");
+  // DEBUG_LOG(temperatureData);
 
   delay(LOOP_DELAY);
 }
