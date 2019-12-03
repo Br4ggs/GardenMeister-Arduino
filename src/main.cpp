@@ -4,6 +4,7 @@
 #include "GroundMoistureSensorController.h"
 #include "DHT11SensorController.h"
 #include "WaterPumpController.h"
+#include "NetController.h"
 
 //NEVER DO ANY INITIALIZATION BEFORE SETUP!!
 
@@ -29,6 +30,7 @@ WaterPumpController *waterPumpController;
 ISensor *grndSensor;
 ISensor *dht11Sensor;
 
+NetController *netController;
 
 void setup() {
 #ifdef REGULATOR_DEBUG
@@ -39,33 +41,37 @@ void setup() {
   waterPumpController = new WaterPumpController();
   grndSensor = new GroundMoistureSensorController();
   dht11Sensor = new DHT11SensorController();
+  netController = new NetController();
 }
 
 void loop() {
-#ifdef REGULATOR_DEBUG
-  if(Serial.available()) {
-    String data = Serial.readStringUntil('\n');
-    DEBUG_LOG(data);
-  }
-#endif
   DEBUG_LOG("---------------");
 
-  DEBUG_LOG("GROUND SENSOR");
-  grndSensor->MeasureSensor();
-  int sensorData = grndSensor->GetSensorData();
-  DEBUG_LOG("ground moisture:");
-  DEBUG_LOG(sensorData);
+  // char path[] = "/api/todoitems";
+  // char postData[] = "{\"name\":\"Arduino Test\",\"isComplete\":true}";
+  // char contentType[] = "application/json";
+  // String rsp = netController->Get(path);
+  // String rsp = netController->Post(path, postData, contentType);
 
-  DEBUG_LOG("---------------");
+  // DEBUG_LOG("---RESPONSE---");
+  // DEBUG_LOG(rsp);
 
-  DEBUG_LOG("DHT11 SENSOR");
-  dht11Sensor->MeasureSensor();
-  float humidityData = dht11Sensor->GetSensorData(DHT11data::HUMIDITY);
-  float temperatureData = dht11Sensor->GetSensorData(DHT11data::TEMPERATURE);
-  DEBUG_LOG("humidity:");
-  DEBUG_LOG(humidityData);
-  DEBUG_LOG("temperature");
-  DEBUG_LOG(temperatureData);
+  // DEBUG_LOG("GROUND SENSOR");
+  // grndSensor->MeasureSensor();
+  // int sensorData = grndSensor->GetSensorData();
+  // DEBUG_LOG("ground moisture:");
+  // DEBUG_LOG(sensorData);
+
+  // DEBUG_LOG("---------------");
+
+  // DEBUG_LOG("DHT11 SENSOR");
+  // dht11Sensor->MeasureSensor();
+  // float humidityData = dht11Sensor->GetSensorData(DHT11data::HUMIDITY);
+  // float temperatureData = dht11Sensor->GetSensorData(DHT11data::TEMPERATURE);
+  // DEBUG_LOG("humidity:");
+  // DEBUG_LOG(humidityData);
+  // DEBUG_LOG("temperature");
+  // DEBUG_LOG(temperatureData);
 
   delay(LOOP_DELAY);
 }

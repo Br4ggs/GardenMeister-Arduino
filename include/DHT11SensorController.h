@@ -14,7 +14,7 @@ enum DHT11data
 class DHT11SensorController : public ISensor
 {
 private:
-    const int SENSOR_DELAY = 1000;
+    const int SENSOR_DELAY = 2000;
     const int SENSOR_PIN = 2;
     const int DHT_TYPE = DHT11;
     DHT DHTSensor;
