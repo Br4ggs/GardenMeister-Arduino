@@ -17,8 +17,35 @@ int SensorManager::PerformMeasurement()
 
 int SensorManager::SendMeasurements()
 {
-    //TODO
-    return -1;
+    String ip = netController->GetIPAddressStr();
+    //TODO: add error handling if these are NaN
+    float temperature = GetTemperatureMeasurement();
+    float humidity = GetHumidityMeasurement();
+    float grndMoisture = GetGrndMoistureMeasurement();
+    
+    String jsonBody = "{";
+    jsonBody += "\"regulatorID\":\"";
+    jsonBody += ip;
+    jsonBody += "\",";
+
+    jsonBody += "\"temperature\":";
+    jsonBody += temperature;
+    jsonBody += ",";
+
+    jsonBody += "\"humidity\":";
+    jsonBody += humidity;
+    jsonBody += ",";
+
+    jsonBody += "\"soilMoisture\":";
+    jsonBody += grndMoisture;
+    jsonBody += "}";
+
+    //TODO: move these to netcontroller?
+    char contentType[] = "application/json";
+    char path[] = "/api/measurement";
+    int rspCode = netController->Post(path, jsonBody.c_str(), contentType);
+
+    return rspCode;
 }
 
 float SensorManager::GetGrndMoistureMeasurement()
@@ -33,5 +60,5 @@ float SensorManager::GetHumidityMeasurement()
 
 float SensorManager::GetTemperatureMeasurement()
 {
-    return dht11Sensor ->GetSensorData(DHT11data::TEMPERATURE);
+    return dht11Sensor->GetSensorData(DHT11data::TEMPERATURE);
 }

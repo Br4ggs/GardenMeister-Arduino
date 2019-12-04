@@ -17,7 +17,7 @@ NetController::NetController()
     DEBUG_LOGLN(ip);
 }
 
-String NetController::Get(const char *path)
+int NetController::Get(const char *path)
 {
     DEBUG_LOGLN("Starting get request");
     http.get(path);
@@ -28,11 +28,14 @@ String NetController::Get(const char *path)
     DEBUG_LOGLN("Get request ended with status code:");
     DEBUG_LOGLN(statusCode);
 
+    responseCode = statusCode;
+    responseBody = response;
+
     http.stop();
-    return response;
+    return statusCode;
 }
 
-String NetController::Post(const char *path, const char *postData, const char *contentType)
+int NetController::Post(const char *path, const char *postData, const char *contentType)
 {
     DEBUG_LOGLN("Starting post request");
     http.post(path, contentType, postData);
@@ -43,11 +46,19 @@ String NetController::Post(const char *path, const char *postData, const char *c
     DEBUG_LOGLN("Post request ended with status code:");
     DEBUG_LOGLN(statusCode);
 
+    responseCode = statusCode;
+    responseBody = response;
+
     http.stop();
-    return response;
+    return statusCode;
 }
 
 IPAddress NetController::GetIPAddress()
 {
     return ip;
+}
+
+String NetController::GetIPAddressStr()
+{
+    return String(ip[0]) + "." + ip[1] + "." + ip[2] + "." + ip[3];
 }

@@ -53,6 +53,10 @@ void loop() {
   DEBUG_LOG("TEMPERATURE:     ");
   DEBUG_LOGLN(temperature);
 
+  int rsp = sensorManager->SendMeasurements();
+  DEBUG_LOG("responded with status code: ");
+  DEBUG_LOGLN(rsp);
+
   // char path[] = "/api/todoitems";
   // char postData[] = "{\"name\":\"Arduino Test\",\"isComplete\":true}";
   // char contentType[] = "application/json";
@@ -61,23 +65,6 @@ void loop() {
 
   // DEBUG_LOGLN("---RESPONSE---");
   // DEBUG_LOGLN(rsp);
-
-  // DEBUG_LOGLN("GROUND SENSOR");
-  // grndSensor->MeasureSensor();
-  // int sensorData = grndSensor->GetSensorData();
-  // DEBUG_LOGLN("ground moisture:");
-  // DEBUG_LOGLN(sensorData);
-
-  // DEBUG_LOGLN("---------------");
-
-  // DEBUG_LOGLN("DHT11 SENSOR");
-  // dht11Sensor->MeasureSensor();
-  // float humidityData = dht11Sensor->GetSensorData(DHT11data::HUMIDITY);
-  // float temperatureData = dht11Sensor->GetSensorData(DHT11data::TEMPERATURE);
-  // DEBUG_LOGLN("humidity:");
-  // DEBUG_LOGLN(humidityData);
-  // DEBUG_LOGLN("temperature");
-  // DEBUG_LOGLN(temperatureData);
 
   delay(LOOP_DELAY);
 }
