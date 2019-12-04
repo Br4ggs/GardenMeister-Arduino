@@ -7,9 +7,11 @@
 #define REGULATOR_DEBUG
 
 #ifdef REGULATOR_DEBUG
- #define DEBUG_LOG(x) Serial.println (x)
+ #define DEBUG_LOGLN(x) Serial.println (x)
+ #define DEBUG_LOG(x) Serial.print (x)
  #define BAUD_RATE 9600
 #else
+ #define DEBUG_LOGLN(x)
  #define DEBUG_LOG(x)
 #endif
 

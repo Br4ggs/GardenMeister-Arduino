@@ -21,6 +21,7 @@ public:
     NetController();
     String Get(const char *path);
     String Post(const char *path, const char *postData, const char *contentType);
+    IPAddress GetIPAddress();
 };
 
 #endif

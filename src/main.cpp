@@ -1,10 +1,8 @@
 #include <Arduino.h>
 #include "stdlib.h"
-#include "ISensor.h"
-#include "GroundMoistureSensorController.h"
-#include "DHT11SensorController.h"
 #include "WaterPumpController.h"
 #include "NetController.h"
+#include "SensorManager.h"
 
 //NEVER DO ANY INITIALIZATION BEFORE SETUP!!
 
@@ -26,26 +24,34 @@
 const long LOOP_DELAY = 2000;
 
 WaterPumpController *waterPumpController;
-
-ISensor *grndSensor;
-ISensor *dht11Sensor;
-
 NetController *netController;
+SensorManager *sensorManager;
 
 void setup() {
 #ifdef REGULATOR_DEBUG
   Serial.begin(BAUD_RATE);
-  DEBUG_LOG("---RUNNING REGULATOR IN DEBUG MODE---");
+  DEBUG_LOGLN("---RUNNING REGULATOR IN DEBUG MODE---");
 #endif
 
   waterPumpController = new WaterPumpController();
-  grndSensor = new GroundMoistureSensorController();
-  dht11Sensor = new DHT11SensorController();
   netController = new NetController();
+  sensorManager = new SensorManager(netController);
 }
 
 void loop() {
-  DEBUG_LOG("---------------");
+  DEBUG_LOGLN("---------------");
+
+  sensorManager->PerformMeasurement();
+  float grndMoist = sensorManager->GetGrndMoistureMeasurement();
+  float humidity = sensorManager->GetHumidityMeasurement();
+  float temperature = sensorManager->GetTemperatureMeasurement();
+
+  DEBUG_LOG("GROUND MOISTURE: ");
+  DEBUG_LOGLN(grndMoist);
+  DEBUG_LOG("HUMIDITY:        ");
+  DEBUG_LOGLN(humidity);
+  DEBUG_LOG("TEMPERATURE:     ");
+  DEBUG_LOGLN(temperature);
 
   // char path[] = "/api/todoitems";
   // char postData[] = "{\"name\":\"Arduino Test\",\"isComplete\":true}";
@@ -53,25 +59,25 @@ void loop() {
   // String rsp = netController->Get(path);
   // String rsp = netController->Post(path, postData, contentType);
 
-  // DEBUG_LOG("---RESPONSE---");
-  // DEBUG_LOG(rsp);
+  // DEBUG_LOGLN("---RESPONSE---");
+  // DEBUG_LOGLN(rsp);
 
-  // DEBUG_LOG("GROUND SENSOR");
+  // DEBUG_LOGLN("GROUND SENSOR");
   // grndSensor->MeasureSensor();
   // int sensorData = grndSensor->GetSensorData();
-  // DEBUG_LOG("ground moisture:");
-  // DEBUG_LOG(sensorData);
+  // DEBUG_LOGLN("ground moisture:");
+  // DEBUG_LOGLN(sensorData);
 
-  // DEBUG_LOG("---------------");
+  // DEBUG_LOGLN("---------------");
 
-  // DEBUG_LOG("DHT11 SENSOR");
+  // DEBUG_LOGLN("DHT11 SENSOR");
   // dht11Sensor->MeasureSensor();
   // float humidityData = dht11Sensor->GetSensorData(DHT11data::HUMIDITY);
   // float temperatureData = dht11Sensor->GetSensorData(DHT11data::TEMPERATURE);
-  // DEBUG_LOG("humidity:");
-  // DEBUG_LOG(humidityData);
-  // DEBUG_LOG("temperature");
-  // DEBUG_LOG(temperatureData);
+  // DEBUG_LOGLN("humidity:");
+  // DEBUG_LOGLN(humidityData);
+  // DEBUG_LOGLN("temperature");
+  // DEBUG_LOGLN(temperatureData);
 
   delay(LOOP_DELAY);
 }
