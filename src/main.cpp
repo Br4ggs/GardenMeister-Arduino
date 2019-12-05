@@ -3,6 +3,9 @@
 #include "WaterPumpController.h"
 #include "NetController.h"
 #include "SensorManager.h"
+#include "ProfileManager.h"
+
+//TODO: add documentation for classes.
 
 //NEVER DO ANY INITIALIZATION BEFORE SETUP!!
 
@@ -26,6 +29,7 @@ const long LOOP_DELAY = 2000;
 WaterPumpController *waterPumpController;
 NetController *netController;
 SensorManager *sensorManager;
+ProfileManager *profileManager;
 
 void setup() {
 #ifdef REGULATOR_DEBUG
@@ -36,35 +40,39 @@ void setup() {
   waterPumpController = new WaterPumpController();
   netController = new NetController();
   sensorManager = new SensorManager(netController);
+  profileManager = new ProfileManager(netController);
 }
 
 void loop() {
   DEBUG_LOGLN("---------------");
 
-  sensorManager->PerformMeasurement();
-  float grndMoist = sensorManager->GetGrndMoistureMeasurement();
-  float humidity = sensorManager->GetHumidityMeasurement();
-  float temperature = sensorManager->GetTemperatureMeasurement();
+  // sensorManager->PerformMeasurement();
+  // float grndMoist = sensorManager->GetGrndMoistureMeasurement();
+  // float humidity = sensorManager->GetHumidityMeasurement();
+  // float temperature = sensorManager->GetTemperatureMeasurement();
 
-  DEBUG_LOG("GROUND MOISTURE: ");
-  DEBUG_LOGLN(grndMoist);
-  DEBUG_LOG("HUMIDITY:        ");
-  DEBUG_LOGLN(humidity);
-  DEBUG_LOG("TEMPERATURE:     ");
-  DEBUG_LOGLN(temperature);
+  // DEBUG_LOG("GROUND MOISTURE: ");
+  // DEBUG_LOGLN(grndMoist);
+  // DEBUG_LOG("HUMIDITY:        ");
+  // DEBUG_LOGLN(humidity);
+  // DEBUG_LOG("TEMPERATURE:     ");
+  // DEBUG_LOGLN(temperature);
 
-  int rsp = sensorManager->SendMeasurements();
-  DEBUG_LOG("responded with status code: ");
-  DEBUG_LOGLN(rsp);
-
-  // char path[] = "/api/todoitems";
-  // char postData[] = "{\"name\":\"Arduino Test\",\"isComplete\":true}";
-  // char contentType[] = "application/json";
-  // String rsp = netController->Get(path);
-  // String rsp = netController->Post(path, postData, contentType);
-
-  // DEBUG_LOGLN("---RESPONSE---");
+  // int rsp = sensorManager->SendMeasurements();
+  // DEBUG_LOG("responded with status code: ");
   // DEBUG_LOGLN(rsp);
+
+  // DEBUG_LOGLN("---------------");
+
+  // float grndTest = 34.0f;
+  // bool testResult = profileManager->GrndMoistureWithinRange(grndTest);
+  // DEBUG_LOGLN(testResult);
+  // grndTest = 35.0f;
+  // testResult = profileManager->GrndMoistureWithinRange(grndTest);
+  // DEBUG_LOGLN(testResult);
+  // grndTest = 51.0f;
+  // testResult = profileManager->GrndMoistureWithinRange(grndTest);
+  // DEBUG_LOGLN(testResult);
 
   delay(LOOP_DELAY);
 }
