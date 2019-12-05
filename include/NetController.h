@@ -17,10 +17,16 @@ private:
     HttpClient http;
     IPAddress ip;
     int status = WL_IDLE_STATUS;
+    String responseBody;
+    int responseCode;
 public:
     NetController();
-    String Get(const char *path);
-    String Post(const char *path, const char *postData, const char *contentType);
+    int Get(const char *path);
+    int Post(const char *path, const char *postData, const char *contentType);
+    IPAddress GetIPAddress();
+    String GetIPAddressStr();
+    String GetResponseBody();
+    int GetResponseCode();
 };
 
 #endif
