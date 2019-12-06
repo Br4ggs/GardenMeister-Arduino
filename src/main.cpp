@@ -46,13 +46,13 @@ void setup() {
 void loop() {
   DEBUG_LOGLN("---------------");
 
-  // sensorManager->PerformMeasurement();
-  // float grndMoist = sensorManager->GetGrndMoistureMeasurement();
+  sensorManager->PerformMeasurement();
+  float grndMoist = sensorManager->GetGrndMoistureMeasurement();
   // float humidity = sensorManager->GetHumidityMeasurement();
   // float temperature = sensorManager->GetTemperatureMeasurement();
 
-  // DEBUG_LOG("GROUND MOISTURE: ");
-  // DEBUG_LOGLN(grndMoist);
+  DEBUG_LOG("GROUND MOISTURE: ");
+  DEBUG_LOGLN(grndMoist);
   // DEBUG_LOG("HUMIDITY:        ");
   // DEBUG_LOGLN(humidity);
   // DEBUG_LOG("TEMPERATURE:     ");
@@ -62,7 +62,13 @@ void loop() {
   // DEBUG_LOG("responded with status code: ");
   // DEBUG_LOGLN(rsp);
 
-  // DEBUG_LOGLN("---------------");
+  DEBUG_LOGLN("---------------");
+
+  float grndMoistMapped = map(grndMoist, 0, 700, 0, 100);
+  if(profileManager->GrndMoistureBelowThreshold(grndMoistMapped)){
+    waterPumpController->ActivateMotor();
+    DEBUG_LOGLN("Motor Activatie");
+  }
 
   // float grndTest = 34.0f;
   // bool testResult = profileManager->GrndMoistureWithinRange(grndTest);
