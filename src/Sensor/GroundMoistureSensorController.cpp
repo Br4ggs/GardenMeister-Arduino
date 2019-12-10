@@ -9,8 +9,11 @@ GroundMoistureSensorController::GroundMoistureSensorController()
 int GroundMoistureSensorController::MeasureSensor()
 {
     sensorValue = analogRead(SENSOR_PIN);
-    //if sensorValue is not in range display error message
-    return 1;
+
+    if (sensorValue < MIN_OUTPUT || sensorValue > MAX_OUTPUT)
+        sensorValue = -1;
+    
+    return (sensorValue < MIN_OUTPUT || sensorValue > MAX_OUTPUT) ? -1 : 1;
 }
 
 float GroundMoistureSensorController::GetSensorData(int type)
