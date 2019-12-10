@@ -9,19 +9,34 @@ SensorManager::SensorManager(NetController *net)
 
 int SensorManager::PerformMeasurement()
 {
-    grndSensor->MeasureSensor();
-    dht11Sensor->MeasureSensor();
-    //TODO: if values weren't measured correctly return -1
-    return 1;
+    int grndCode = grndSensor->MeasureSensor();
+    int dht11Code = dht11Sensor->MeasureSensor();
+
+    DEBUG_LOG("GRND STATUS: ");
+    DEBUG_LOGLN(grndCode);
+    DEBUG_LOG("DHT11 STATUS: ");
+    DEBUG_LOGLN(dht11Code);
+
+    return (grndCode == -1 || dht11Code == -1) ? -1 : 1;
 }
 
 int SensorManager::SendMeasurements()
 {
     String ip = netController->GetIPAddressStr();
-    //TODO: add error handling if these are NaN
+    //TODO: use json formatter
     float temperature = GetTemperatureMeasurement();
     float humidity = GetHumidityMeasurement();
     float grndMoisture = GetGrndMoistureMeasurement();
+
+    //this needs to happen in the individual sensor controllers
+    // if(isnan(temperature))
+    //     temperature = -1;
+
+    // if(isnan(humidity))
+    //     humidity = -1;
+
+    // if(isnan(grndMoisture))
+    //     grndMoisture = -1;
     
     String jsonBody = "{";
     jsonBody += "\"regulatorID\":\"";
@@ -39,6 +54,8 @@ int SensorManager::SendMeasurements()
     jsonBody += "\"soilMoisture\":";
     jsonBody += grndMoisture;
     jsonBody += "}";
+
+    DEBUG_LOGLN(jsonBody);
 
     //TODO: move these to netcontroller?
     char contentType[] = "application/json";

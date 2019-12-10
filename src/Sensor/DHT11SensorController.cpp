@@ -11,9 +11,14 @@ int DHT11SensorController::MeasureSensor()
     humidityValue = DHTSensor.readHumidity();
     delay(SENSOR_DELAY);
     temperatureValue = DHTSensor.readTemperature();
-    //if sensorValue is not in range display error message
-    //is NAN
-    return 1;
+
+    if(isnan(temperatureValue))
+        temperatureValue = -1;
+
+    if(isnan(humidityValue))
+        humidityValue = -1;
+
+    return (isnan(humidityValue) || isnan(temperatureValue)) ? -1 : 1;
 }
 
 float DHT11SensorController::GetSensorData(int type)

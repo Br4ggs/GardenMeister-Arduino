@@ -62,3 +62,13 @@ String NetController::GetIPAddressStr()
 {
     return String(ip[0]) + "." + ip[1] + "." + ip[2] + "." + ip[3];
 }
+
+String NetController::GetResponseBody()
+{
+    return responseBody;
+}
+
+int NetController::GetResponseCode()
+{
+    return responseCode;
+}

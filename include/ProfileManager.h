@@ -3,6 +3,7 @@
 
 #include "stdlib.h"
 #include "NetController.h"
+#include "ArduinoJson.h"
 
 class ProfileManager
 {
@@ -17,6 +18,8 @@ public:
     int SyncProfile();
     bool GrndMoistureBelowThreshold(float grndMoisture);
     bool GrndMoistureWithinRange(float grndMoisture);
+    float GetMinGrndMoisture();
+    float GetMaxGrndMoisture();
 };
 
 #endif
