@@ -9,8 +9,8 @@ class ProfileManager
 {
 private:
     //TODO: placeholder values, change these later
-    float grndMoistureThreshold = 25.0f;
-    float desiredGrndMoisture = 40.0f;
+    float minGrndMoisture = 20.0f;
+    float maxGrndMoisture = 50.0f;
     float margin = 5.0f;
     NetController *netController;
 public:

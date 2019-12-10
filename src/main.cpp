@@ -45,27 +45,27 @@ void setup() {
 
 void loop() {
   DEBUG_LOGLN("---------------");
-  // int code = profileManager->SyncProfile();
-  // DEBUG_LOGLN("---------------");
-  // DEBUG_LOGLN(code);
-  // DEBUG_LOGLN(profileManager->GetMinGrndMoisture());
-  // DEBUG_LOGLN(profileManager->GetMaxGrndMoisture());
+  int code = profileManager->SyncProfile();
+  DEBUG_LOGLN("---------------");
+  DEBUG_LOGLN(code);
+  DEBUG_LOGLN(profileManager->GetMinGrndMoisture());
+  DEBUG_LOGLN(profileManager->GetMaxGrndMoisture());
 
-  int status = sensorManager->PerformMeasurement();
-  float grndMoist = sensorManager->GetGrndMoistureMeasurement();
-  float humidity = sensorManager->GetHumidityMeasurement();
-  float temperature = sensorManager->GetTemperatureMeasurement();
+  // int status = sensorManager->PerformMeasurement();
+  // float grndMoist = sensorManager->GetGrndMoistureMeasurement();
+  // float humidity = sensorManager->GetHumidityMeasurement();
+  // float temperature = sensorManager->GetTemperatureMeasurement();
   
-  DEBUG_LOG("STATUS: ");
-  DEBUG_LOGLN(status);
-  DEBUG_LOG("GROUND MOISTURE: ");
-  DEBUG_LOGLN(grndMoist);
-  DEBUG_LOG("HUMIDITY:        ");
-  DEBUG_LOGLN(humidity);
-  DEBUG_LOG("TEMPERATURE:     ");
-  DEBUG_LOGLN(temperature);
+  // DEBUG_LOG("STATUS: ");
+  // DEBUG_LOGLN(status);
+  // DEBUG_LOG("GROUND MOISTURE: ");
+  // DEBUG_LOGLN(grndMoist);
+  // DEBUG_LOG("HUMIDITY:        ");
+  // DEBUG_LOGLN(humidity);
+  // DEBUG_LOG("TEMPERATURE:     ");
+  // DEBUG_LOGLN(temperature);
 
-  int rsp = sensorManager->SendMeasurements();
+  // int rsp = sensorManager->SendMeasurements();
 
   // DEBUG_LOGLN("---------------");
 
