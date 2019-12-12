@@ -8,7 +8,7 @@ class GroundMoistureSensorController : public ISensor
 {
 private:
     const int MIN_OUTPUT = 0;
-    const int MAX_OUTPUT = 700;
+    const int MAX_OUTPUT = 775;
     const int SENSOR_PIN = A0;
     int sensorValue;
 public:
