@@ -25,6 +25,7 @@
 //delay for x amount of seconds
 
 const long LOOP_DELAY = 2000;
+bool motorActive = false;
 
 WaterPumpController *waterPumpController;
 NetController *netController;
@@ -69,11 +70,20 @@ void loop() {
 
   // DEBUG_LOGLN("---------------");
 
-  // float grndMoistMapped = map(grndMoist, 0, 700, 0, 100);
-  // if(profileManager->GrndMoistureBelowThreshold(grndMoistMapped)){
-  //   waterPumpController->ActivateMotor();
-  //   DEBUG_LOGLN("Motor Activatie");
-  // }
+  float grndMoistMapped = map(grndMoist, 0, 700, 0, 100);
+  DEBUG_LOGLN(grndMoistMapped);
+
+  if(profileManager->GrndMoistureBelowThreshold(grndMoistMapped) && motorActive == false){
+    motorActive = true;
+    DEBUG_LOGLN("Motor Activatie");
+  }
+  if(profileManager->GrndMoistureWithinRange(grndMoistMapped) && motorActive == true){
+    motorActive = false;
+    DEBUG_LOGLN("Motor Deactiveert");
+  }
+  if(motorActive == true){
+    waterPumpController->ActivateMotor();
+  }
 
   // float grndTest = 34.0f;
   // bool testResult = profileManager->GrndMoistureWithinRange(grndTest);
