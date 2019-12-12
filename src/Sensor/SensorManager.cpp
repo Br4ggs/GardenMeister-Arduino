@@ -2,6 +2,7 @@
 
 SensorManager::SensorManager(NetController *net)
 {
+    waterLevelSensor = new WaterLevelSensor();
     grndSensor = new GroundMoistureSensorController();
     dht11Sensor = new DHT11SensorController();
     netController = net;
@@ -9,6 +10,7 @@ SensorManager::SensorManager(NetController *net)
 
 int SensorManager::PerformMeasurement()
 {
+    int waterlvlCode = waterLevelSensor->MeasureSensor();
     int grndCode = grndSensor->MeasureSensor();
     int dht11Code = dht11Sensor->MeasureSensor();
 
@@ -27,16 +29,7 @@ int SensorManager::SendMeasurements()
     float temperature = GetTemperatureMeasurement();
     float humidity = GetHumidityMeasurement();
     float grndMoisture = GetGrndMoistureMeasurement();
-
-    //this needs to happen in the individual sensor controllers
-    // if(isnan(temperature))
-    //     temperature = -1;
-
-    // if(isnan(humidity))
-    //     humidity = -1;
-
-    // if(isnan(grndMoisture))
-    //     grndMoisture = -1;
+    bool tankEmpty = WaterTankEmpty();
     
     String jsonBody = "{";
     jsonBody += "\"regulatorID\":\"";
@@ -53,6 +46,9 @@ int SensorManager::SendMeasurements()
 
     jsonBody += "\"soilMoisture\":";
     jsonBody += grndMoisture;
+    jsonBody += ",";
+    jsonBody += "\"tankEmpty\":";
+    jsonBody += tankEmpty;
     jsonBody += "}";
 
     DEBUG_LOGLN(jsonBody);
@@ -60,8 +56,8 @@ int SensorManager::SendMeasurements()
     //TODO: move these to netcontroller?
     char contentType[] = "application/json";
     char path[] = "/api/measurement";
-    int rspCode = netController->Post(path, jsonBody.c_str(), contentType);
-
+    //int rspCode = netController->Post(path, jsonBody.c_str(), contentType);
+    int rspCode = -1;
     return rspCode;
 }
 
@@ -78,4 +74,9 @@ float SensorManager::GetHumidityMeasurement()
 float SensorManager::GetTemperatureMeasurement()
 {
     return dht11Sensor->GetSensorData(DHT11data::TEMPERATURE);
+}
+
+bool SensorManager::WaterTankEmpty()
+{
+    return waterLevelSensor->GetSensorData();
 }

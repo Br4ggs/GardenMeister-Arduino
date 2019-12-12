@@ -5,6 +5,8 @@
 #include "SensorManager.h"
 #include "ProfileManager.h"
 
+#include "WaterLevelSensor.h"
+
 //TODO: add documentation for classes.
 
 //NEVER DO ANY INITIALIZATION BEFORE SETUP!!
@@ -45,13 +47,16 @@ void setup() {
 
 void loop() {
   DEBUG_LOGLN("---------------");
-  int code = profileManager->SyncProfile();
-  DEBUG_LOGLN("---------------");
-  DEBUG_LOGLN(code);
-  DEBUG_LOGLN(profileManager->GetMinGrndMoisture());
-  DEBUG_LOGLN(profileManager->GetMaxGrndMoisture());
+  // int code = profileManager->SyncProfile();
+  // DEBUG_LOGLN("---------------");
+  // DEBUG_LOGLN(code);
+  // DEBUG_LOGLN(profileManager->GetMinGrndMoisture());
+  // DEBUG_LOGLN(profileManager->GetMaxGrndMoisture());
 
-  // int status = sensorManager->PerformMeasurement();
+  int status = sensorManager->PerformMeasurement();
+  bool test = sensorManager->WaterTankEmpty();
+  DEBUG_LOGLN(test);
+  sensorManager->SendMeasurements();
   // float grndMoist = sensorManager->GetGrndMoistureMeasurement();
   // float humidity = sensorManager->GetHumidityMeasurement();
   // float temperature = sensorManager->GetTemperatureMeasurement();
