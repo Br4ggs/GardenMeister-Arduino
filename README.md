@@ -1,6 +1,16 @@
 # GardenMeister-Arduino
 Arduino source code for the GardenMeister project
 
+# Required Hardware
+* [Arduino MKR1000 (wifi)](https://store.arduino.cc/arduino-mkr1000-wifi)
+* [Grove Moisture Sensor](http://wiki.seeedstudio.com/Grove-Moisture_Sensor/)
+* [DHT11 Temperature & Humidity Sensor](https://www.adafruit.com/product/386)
+* [Water Level Switch](https://www.kiwi-electronics.nl/water-liquid-level-sensor-switch?lang=en)
+* [Breadboard Power Supply](https://www.make.net.za/product/breadboard-power-supply/) (You can pick something less janky as long as it can provide both 5V and 3.3V)
+* TSL2561 luminosity sensor (coming soon)
+
+
+
 # Setup
 ## Download sourcecode
 Download this repository locally either by:
@@ -41,7 +51,7 @@ If everything went correct, you should now have the project open in VSCode. You 
 ## Set up the hardware
 Now that you have the codebase and neccesary plugin to flash the arduino. Go ahead and set up your hardware according to the following diagram:
 
-**TODO**
+![alt text](img/Diagram.PNG "Diagram")
 
 ## Upload and Monitor code to arduino
 Once you have your arduino MKR1000 set up, upload and monitor the codebase by once again opening the PlatformIO tab and clicking on the `Upload and Monitor` option under Project Tasks.
