@@ -47,6 +47,7 @@ int SensorManager::SendMeasurements()
     jsonBody += "\"soilMoisture\":";
     jsonBody += grndMoisture;
     jsonBody += ",";
+    
     jsonBody += "\"tankEmpty\":";
     jsonBody += tankEmpty;
     jsonBody += "}";
@@ -56,8 +57,7 @@ int SensorManager::SendMeasurements()
     //TODO: move these to netcontroller?
     char contentType[] = "application/json";
     char path[] = "/api/measurement";
-    //int rspCode = netController->Post(path, jsonBody.c_str(), contentType);
-    int rspCode = -1;
+    int rspCode = netController->Post(path, jsonBody.c_str(), contentType);
     return rspCode;
 }
 
