@@ -48,6 +48,27 @@ If everything went correct, you should now have the project open in VSCode. You 
 
 ![alt text](img/Explorer.PNG "Project Explorer")
 
+## Create an `arduino_secrets.h` file
+This file will contain constants required to connect to wifi and the server. Make a file called `arduino_secrets.h` in the `include` directory.
+Copy and paste the following code into the file:
+```
+#ifndef SECRETS_H
+#define SECRETS_H
+
+#define SECRET_SSID "access point name"
+#define SECRET_PASS "access point password"
+
+#define SERVER_ADDRESS "server address"
+#define SERVER_PORT server port
+
+#endif
+```
+Go ahead and fill in the variables as follows:
+* `"access point name"`: name of the wifi router, as a string.
+* `"access point password"`: password for said router, as a string.
+* `"server address"`: ip/address of server, as a string.
+* `server port`: port on which the server recieves http requests, as an integer.
+
 ## Set up the hardware
 Now that you have the codebase and neccesary plugin to flash the arduino. Go ahead and set up your hardware according to the following diagram:
 
