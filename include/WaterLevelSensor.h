@@ -4,6 +4,9 @@
 #include "stdlib.h"
 #include "ISensor.h"
 
+//Controller class responsible for measuring if water level in
+//tank is lower than threshold (how low the water level sensor hangs into the tank).
+//Implements the ISensor base class.
 class WaterLevelSensor : public ISensor
 {
 private:

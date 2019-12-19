@@ -4,6 +4,9 @@
 #include "stdlib.h"
 #include "ISensor.h"
 
+//Controller class responsible for measuring, storing and sanitizing
+//measurements made by Grove moisture sensors.
+//Implements the ISensor base class.
 class GroundMoistureSensorController : public ISensor
 {
 private:

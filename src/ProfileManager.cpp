@@ -3,6 +3,18 @@
 ProfileManager::ProfileManager(NetController *net)
 {
     netController = net;
+    //TODO: error handling if not reachable or wrong status code is returned
+    //RegisterRegulator();
+}
+
+int ProfileManager::RegisterRegulator()
+{
+    String path = "/api/registerRegulator/" + netController->GetIPAddressStr();
+    char contentType[] = "application/json";
+    int rspCode = netController->Post(path.c_str(), contentType, "");
+    //TODO: error handling if wrong status code is returned
+    DEBUG_LOG(rspCode);
+    return 1;
 }
 
 int ProfileManager::SyncProfile()
@@ -23,12 +35,12 @@ int ProfileManager::SyncProfile()
     return (rspCode == 200) ? 1 : -1;
 }
 
-bool ProfileManager::GrndMoistureBelowThreshold(float grndMoisture)
+bool ProfileManager::GrndMoistureBelowMin(float grndMoisture)
 {
     return grndMoisture <= minGrndMoisture;
 }
 
-bool ProfileManager::GrndMoistureWithinRange(float grndMoisture)
+bool ProfileManager::GrndMoistureAboveMax(float grndMoisture)
 {
     return grndMoisture >= (maxGrndMoisture - margin);
 }

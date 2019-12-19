@@ -8,7 +8,6 @@ WaterLevelSensor::WaterLevelSensor()
 int WaterLevelSensor::MeasureSensor()
 {
     sensorValue = digitalRead(SENSOR_PIN);
-    DEBUG_LOGLN(sensorValue);
     return 1;
 }
 
