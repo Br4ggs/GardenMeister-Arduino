@@ -10,7 +10,6 @@
 class ProfileManager
 {
 private:
-    //TODO: placeholder values, change these later
     float minGrndMoisture = 20.0f;
     float maxGrndMoisture = 50.0f;
     float margin = 5.0f;

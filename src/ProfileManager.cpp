@@ -4,6 +4,8 @@ ProfileManager::ProfileManager(NetController *net)
 {
     netController = net;
     //TODO: error handling if not reachable or wrong status code is returned
+    //TODO: error handling keep retrying untill server is reached.
+    //TODO: maybe think of moving this to setup, as its kind of obscured here.
     RegisterRegulator();
 }
 
@@ -12,7 +14,6 @@ int ProfileManager::RegisterRegulator()
     String path = "/api/registerRegulator/" + netController->GetIPAddressStr();
     char contentType[] = "application/json";
     int rspCode = netController->Post(path.c_str(), contentType, "");
-    //TODO: error handling if wrong status code is returned
     DEBUG_LOG(rspCode);
     return 1;
 }
