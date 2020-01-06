@@ -4,7 +4,7 @@ ProfileManager::ProfileManager(NetController *net)
 {
     netController = net;
     //TODO: error handling if not reachable or wrong status code is returned
-    //RegisterRegulator();
+    RegisterRegulator();
 }
 
 int ProfileManager::RegisterRegulator()

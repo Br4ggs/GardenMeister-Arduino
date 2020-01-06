@@ -5,11 +5,9 @@
 #include "SensorManager.h"
 #include "ProfileManager.h"
 
-//TODO: add documentation for classes.
-
 //NEVER DO ANY INITIALIZATION BEFORE SETUP!!
 
-const long LOOP_DELAY = 2000;
+const long LOOP_DELAY = 5000;
 bool motorActive = false;
 
 WaterPumpController *waterPumpController;
@@ -30,34 +28,33 @@ void setup() {
 }
 
 void loop() {
-  DEBUG_LOGLN("---------------");
-  // int code = profileManager->SyncProfile();
-  // DEBUG_LOGLN("---------------");
-  // DEBUG_LOGLN(code);
-  // DEBUG_LOGLN(profileManager->GetMinGrndMoisture());
-  // DEBUG_LOGLN(profileManager->GetMaxGrndMoisture());
+  DEBUG_LOGLN("----PROFILE----");
+  int code = profileManager->SyncProfile();
+  DEBUG_LOGLN(code);
+  DEBUG_LOGLN(profileManager->GetMinGrndMoisture());
+  DEBUG_LOGLN(profileManager->GetMaxGrndMoisture());
+  DEBUG_LOGLN("----SENSOR-----");
 
   int status = sensorManager->PerformMeasurement();
+  code = sensorManager->SendMeasurements();
   DEBUG_LOGLN(status);
-  
-  // sensorManager->SendMeasurements();
-  
-  // float grndMoist = sensorManager->GetGrndMoistureMeasurement();
+  DEBUG_LOGLN(code);
+  DEBUG_LOGLN("---------------");
 
-  // float grndMoistMapped = map(grndMoist, 0, 700, 0, 100);
-  // DEBUG_LOGLN(grndMoistMapped);
-
-  // if(profileManager->GrndMoistureBelowMin(grndMoistMapped) && motorActive == false){
-  //   motorActive = true;
-  //   DEBUG_LOGLN("Motor Activatie");
-  // }
-  // if(profileManager->GrndMoistureAboveMax(grndMoistMapped) && motorActive == true){
-  //   motorActive = false;
-  //   DEBUG_LOGLN("Motor Deactiveert");
-  // }
-  // if(motorActive == true){
-  //   waterPumpController->ActivateMotor();
-  // }
+  float grndMoist = sensorManager->GetGrndMoistureMeasurement();
+  float grndMoistMapped = map(grndMoist, 0, 775, 0, 100);
+  //TODO: only do this when grndmoist is not -1?
+  if(profileManager->GrndMoistureBelowMin(grndMoistMapped) && motorActive == false){
+    motorActive = true;
+    DEBUG_LOGLN("Pump activated");
+  }
+  if(profileManager->GrndMoistureAboveMax(grndMoistMapped) && motorActive == true){
+    motorActive = false;
+    DEBUG_LOGLN("Pump deactivated");
+  }
+  if(motorActive == true){
+    waterPumpController->ActivateMotor();
+  }
 
   delay(LOOP_DELAY);
 }

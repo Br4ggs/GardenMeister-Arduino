@@ -5,7 +5,7 @@ NetController::NetController()
     :http(wifi, serverAddress, port)
 {
     DEBUG_LOGLN("Initializing Netcontroller");
-
+#ifndef NET_DEBUG
     while (status != WL_CONNECTED)
     {
         DEBUG_LOGLN("Attempting connect to network");
@@ -13,6 +13,10 @@ NetController::NetController()
     }
 
     ip = WiFi.localIP();
+#else
+    DEBUG_LOGLN("RUNNING IN NETLESS DEBUG MODE");
+    ip = IPAddress(0,0,0,0);
+#endif
     DEBUG_LOGLN("Connected, ip is:");
     DEBUG_LOGLN(ip);
 }
@@ -20,6 +24,7 @@ NetController::NetController()
 int NetController::Get(const char *path)
 {
     DEBUG_LOGLN("Starting get request");
+#ifndef NET_DEBUG
     http.get(path);
 
     int statusCode = http.responseStatusCode();
@@ -32,12 +37,19 @@ int NetController::Get(const char *path)
     responseBody = response;
 
     http.stop();
+#else
+    DEBUG_LOGLN("NET_DEBUG is enabled, no get request has been made");
+    int statusCode = 200;
+    responseCode = 200;
+    responseBody = "{}";
+#endif
     return statusCode;
 }
 
 int NetController::Post(const char *path, const char *postData, const char *contentType)
 {
     DEBUG_LOGLN("Starting post request");
+#ifndef NET_DEBUG
     http.post(path, contentType, postData);
 
     int statusCode = http.responseStatusCode();
@@ -50,6 +62,12 @@ int NetController::Post(const char *path, const char *postData, const char *cont
     responseBody = response;
 
     http.stop();
+#else
+    DEBUG_LOGLN("NET_DEBUG is enabled, no post request has been made");
+    int statusCode = 200;
+    responseCode = 200;
+    responseBody = "{}";
+#endif
     return statusCode;
 }
 
