@@ -7,7 +7,7 @@
 
 //NEVER DO ANY INITIALIZATION BEFORE SETUP!!
 
-const long LOOP_DELAY = 1000;
+const long LOOP_DELAY = 2000;
 bool motorActive = false;
 
 WaterPumpController *waterPumpController;
@@ -21,19 +21,28 @@ void setup() {
   DEBUG_LOGLN("---RUNNING REGULATOR IN DEBUG MODE---");
 #endif
 
-  //TODO: something is wrong with the netcontroller
-
   waterPumpController = new WaterPumpController();
   netController = new NetController();
   sensorManager = new SensorManager(netController);
   profileManager = new ProfileManager(netController);
 
   delay(5000);
-  DEBUG_LOGLN("starting loop");
-  //TODO: error handling if not reachable or wrong status code is returned
-  //TODO: error handling keep retrying untill server is reached.
-  int code = profileManager->RegisterRegulator();
-  DEBUG_LOGLN(code);
+  DEBUG_LOGLN("starting registration");
+  
+  int code;
+  while (code != 200)
+  {
+    code = profileManager->RegisterRegulator();
+    if (code == 200)
+    {
+      DEBUG_LOGLN("registration succesfull");
+    }
+    else
+    {
+      DEBUG_LOGLN("registration failed, retrying in 5 seconds...");
+    }
+    delay(5000);
+  }
 }
 
 void loop() {
@@ -60,16 +69,19 @@ void loop() {
 
   float grndMoist = sensorManager->GetGrndMoistureMeasurement();
   float grndMoistMapped = map(grndMoist, 0, 775, 0, 100);
-  //TODO: only do this when grndmoist is not -1?
-  if(profileManager->GrndMoistureBelowMin(grndMoistMapped) && motorActive == false){
+
+  if(profileManager->GrndMoistureBelowMin(grndMoistMapped) && motorActive == false)
+  {
     motorActive = true;
-    DEBUG_LOGLN("Pump activated");
   }
-  if(profileManager->GrndMoistureAboveMax(grndMoistMapped) && motorActive == true){
+
+  if(profileManager->GrndMoistureAboveMax(grndMoistMapped) && motorActive == true)
+  {
     motorActive = false;
-    DEBUG_LOGLN("Pump deactivated");
   }
-  if(motorActive == true){
+
+  if(motorActive == true && !sensorManager->WaterTankEmpty())
+  {
     waterPumpController->ActivateMotor();
   }
 

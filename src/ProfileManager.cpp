@@ -17,12 +17,10 @@ int ProfileManager::RegisterRegulator()
 int ProfileManager::SyncProfile()
 {
     String path = "/api/ipprofiles/" + netController->GetIPAddressStr();
-    DEBUG_LOGLN(path);
     int rspCode = netController->Get(path.c_str());
     if(rspCode == 200)
     {
         String rspBody = netController->GetResponseBody();
-        // DEBUG_LOGLN(rspBody);
         DynamicJsonDocument doc(1024);
         deserializeJson(doc, rspBody);
 

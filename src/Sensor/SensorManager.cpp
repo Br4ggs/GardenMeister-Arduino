@@ -52,9 +52,6 @@ int SensorManager::SendMeasurements()
     jsonBody += (tankEmpty == 1) ? "true" : "false";
     jsonBody += "}";
 
-    DEBUG_LOGLN(jsonBody);
-
-    //TODO: move these to netcontroller?
     char contentType[] = "application/json";
     char path[] = "/api/measurement";
     int rspCode = netController->Post(path, jsonBody.c_str(), contentType);

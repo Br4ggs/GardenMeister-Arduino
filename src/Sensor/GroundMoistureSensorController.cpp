@@ -3,7 +3,6 @@
 GroundMoistureSensorController::GroundMoistureSensorController()
 {
     pinMode(SENSOR_PIN, INPUT);
-    DEBUG_LOGLN("Initialized ground moisture sensor");
 }
 
 int GroundMoistureSensorController::MeasureSensor()

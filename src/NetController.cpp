@@ -30,38 +30,27 @@ int NetController::Get(const char *path)
     int statusCode = http.responseStatusCode();
     String response = http.responseBody();
 
-    // DEBUG_LOGLN("Get request ended with status code:");
-    // DEBUG_LOGLN(statusCode);
-
     responseCode = statusCode;
     responseBody = response;
 
     http.stop();
 #else
     DEBUG_LOGLN("NET_DEBUG is enabled, no get request has been made");
-    int statusCode = 200;
-    responseCode = 200;
+    int statusCode = -1;
+    responseCode = -1;
     responseBody = "{}";
 #endif
     return statusCode;
 }
 
-//TODO: i think this might be broken
-//could it be because of print memory overload?
-//F()
 int NetController::Post(const char *path, const char *postData, const char *contentType)
 {
     DEBUG_LOGLN("Starting post request");
 #ifndef NET_DEBUG
-    //Somewhere in here
-
     http.post(path, contentType, postData);
 
     int statusCode = http.responseStatusCode();
     String response = http.responseBody();
-
-    // DEBUG_LOGLN("Post request ended with status code:");
-    // DEBUG_LOGLN(statusCode);
 
     responseCode = statusCode;
     responseBody = response;
@@ -69,8 +58,8 @@ int NetController::Post(const char *path, const char *postData, const char *cont
     http.stop();
 #else
     DEBUG_LOGLN("NET_DEBUG is enabled, no post request has been made");
-    int statusCode = 200;
-    responseCode = 200;
+    int statusCode = -1;
+    responseCode = -1;
     responseBody = "{}";
 #endif
     return statusCode;
