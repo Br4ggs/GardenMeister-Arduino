@@ -49,7 +49,7 @@ int SensorManager::SendMeasurements()
     jsonBody += ",";
     
     jsonBody += "\"tankEmpty\":";
-    jsonBody += tankEmpty;
+    jsonBody += (tankEmpty == 1) ? "true" : "false";
     jsonBody += "}";
 
     DEBUG_LOGLN(jsonBody);

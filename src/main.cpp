@@ -7,7 +7,7 @@
 
 //NEVER DO ANY INITIALIZATION BEFORE SETUP!!
 
-const long LOOP_DELAY = 5000;
+const long LOOP_DELAY = 1000;
 bool motorActive = false;
 
 WaterPumpController *waterPumpController;
@@ -21,10 +21,19 @@ void setup() {
   DEBUG_LOGLN("---RUNNING REGULATOR IN DEBUG MODE---");
 #endif
 
+  //TODO: something is wrong with the netcontroller
+
   waterPumpController = new WaterPumpController();
   netController = new NetController();
   sensorManager = new SensorManager(netController);
   profileManager = new ProfileManager(netController);
+
+  delay(5000);
+  DEBUG_LOGLN("starting loop");
+  //TODO: error handling if not reachable or wrong status code is returned
+  //TODO: error handling keep retrying untill server is reached.
+  int code = profileManager->RegisterRegulator();
+  DEBUG_LOGLN(code);
 }
 
 void loop() {
@@ -39,6 +48,14 @@ void loop() {
   code = sensorManager->SendMeasurements();
   DEBUG_LOGLN(status);
   DEBUG_LOGLN(code);
+  DEBUG_LOG("HUMIDITY: ");
+  DEBUG_LOGLN(sensorManager->GetHumidityMeasurement());
+  DEBUG_LOG("TEMPERATURE: ");
+  DEBUG_LOGLN(sensorManager->GetTemperatureMeasurement());
+  DEBUG_LOG("GROUND MOISTURE: ");
+  DEBUG_LOGLN(sensorManager->GetGrndMoistureMeasurement());
+  DEBUG_LOG("WATER LEVEL: ");
+  DEBUG_LOGLN(sensorManager->WaterTankEmpty());
   DEBUG_LOGLN("---------------");
 
   float grndMoist = sensorManager->GetGrndMoistureMeasurement();

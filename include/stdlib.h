@@ -4,8 +4,8 @@
 #include <Arduino.h>
 
 //comment this out for production release!
-#define REGULATOR_DEBUG
-#define NET_DEBUG
+//#define REGULATOR_DEBUG
+//#define NET_DEBUG
 
 #ifdef REGULATOR_DEBUG
  #define DEBUG_LOGLN(x) Serial.println (x)

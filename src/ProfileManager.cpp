@@ -3,19 +3,15 @@
 ProfileManager::ProfileManager(NetController *net)
 {
     netController = net;
-    //TODO: error handling if not reachable or wrong status code is returned
-    //TODO: error handling keep retrying untill server is reached.
-    //TODO: maybe think of moving this to setup, as its kind of obscured here.
-    RegisterRegulator();
 }
 
 int ProfileManager::RegisterRegulator()
 {
     String path = "/api/registerRegulator/" + netController->GetIPAddressStr();
+    char data[] = "{}";
     char contentType[] = "application/json";
-    int rspCode = netController->Post(path.c_str(), contentType, "");
-    DEBUG_LOG(rspCode);
-    return 1;
+    int rspCode = netController->Post(path.c_str(), data, contentType);
+    return rspCode;
 }
 
 int ProfileManager::SyncProfile()
@@ -26,14 +22,14 @@ int ProfileManager::SyncProfile()
     if(rspCode == 200)
     {
         String rspBody = netController->GetResponseBody();
-        DEBUG_LOGLN(rspBody);
+        // DEBUG_LOGLN(rspBody);
         DynamicJsonDocument doc(1024);
         deserializeJson(doc, rspBody);
 
         minGrndMoisture = doc["minSoilMoisture"];
         maxGrndMoisture = doc["maxSoilMoisture"];
     }
-    return (rspCode == 200) ? 1 : -1;
+    return rspCode;
 }
 
 bool ProfileManager::GrndMoistureBelowMin(float grndMoisture)
