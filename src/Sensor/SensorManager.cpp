@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #include "SensorManager.h"
 
 SensorManager::SensorManager(NetController *net)
@@ -22,6 +26,7 @@ int SensorManager::PerformMeasurement()
     return (grndCode == -1 || dht11Code == -1) ? -1 : 1;
 }
 
+//TODO: ground moisture should be mapped to 0%-100%
 int SensorManager::SendMeasurements()
 {
     String ip = netController->GetIPAddressStr();
@@ -49,12 +54,9 @@ int SensorManager::SendMeasurements()
     jsonBody += ",";
     
     jsonBody += "\"tankEmpty\":";
-    jsonBody += tankEmpty;
+    jsonBody += (tankEmpty == 1) ? "true" : "false";
     jsonBody += "}";
 
-    DEBUG_LOGLN(jsonBody);
-
-    //TODO: move these to netcontroller?
     char contentType[] = "application/json";
     char path[] = "/api/measurement";
     int rspCode = netController->Post(path, jsonBody.c_str(), contentType);

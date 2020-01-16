@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #include <Arduino.h>
 #include "stdlib.h"
 #include "WaterPumpController.h"
@@ -5,28 +9,9 @@
 #include "SensorManager.h"
 #include "ProfileManager.h"
 
-#include "WaterLevelSensor.h"
-
-//TODO: add documentation for classes.
-
 //NEVER DO ANY INITIALIZATION BEFORE SETUP!!
 
-//motor and sensors cannot function all at the same time
-//luckily we never have to do that
-//so we can first measure the sensors
-//then turn on the motor for a certain amount of time
-
-//collect air moisture and temperature data
-//collect ground moisture data
-//  if ground moisture level is too low:
-//    give water for X amount of seconds
-//
-//send data to server
-//check plant profile with server
-//send ok status check(?)
-//delay for x amount of seconds
-
-const long LOOP_DELAY = 2000;
+const long LOOP_DELAY = 1000*60*10;
 bool motorActive = false;
 
 WaterPumpController *waterPumpController;
@@ -44,34 +29,63 @@ void setup() {
   netController = new NetController();
   sensorManager = new SensorManager(netController);
   profileManager = new ProfileManager(netController);
+
+  delay(5000);
+  DEBUG_LOGLN("starting registration");
+  
+  int code;
+  while (code != 200)
+  {
+    code = profileManager->RegisterRegulator();
+    if (code != 200)
+    {
+      DEBUG_LOGLN("registration failed, retrying in 5 seconds...");
+    }
+    delay(5000);
+  }
+  DEBUG_LOGLN("registration succesfull");
 }
 
 void loop() {
-  DEBUG_LOGLN("---------------");
-  // int code = profileManager->SyncProfile();
-  // DEBUG_LOGLN("---------------");
-  // DEBUG_LOGLN(code);
-  // DEBUG_LOGLN(profileManager->GetMinGrndMoisture());
-  // DEBUG_LOGLN(profileManager->GetMaxGrndMoisture());
+  DEBUG_LOGLN("----PROFILE----");
+  int code = profileManager->SyncProfile();
+  DEBUG_LOGLN(code);
+  DEBUG_LOGLN(profileManager->GetMinGrndMoisture());
+  DEBUG_LOGLN(profileManager->GetMaxGrndMoisture());
+  DEBUG_LOGLN("----SENSOR-----");
 
   int status = sensorManager->PerformMeasurement();
-  
-  sensorManager->SendMeasurements();
-  
-  float grndMoist = sensorManager->GetGrndMoistureMeasurement();
+  DEBUG_LOGLN(status);
+  DEBUG_LOG("HUMIDITY: ");
+  DEBUG_LOGLN(sensorManager->GetHumidityMeasurement());
+  DEBUG_LOG("TEMPERATURE: ");
+  DEBUG_LOGLN(sensorManager->GetTemperatureMeasurement());
+  DEBUG_LOG("GROUND MOISTURE: ");
+  DEBUG_LOGLN(sensorManager->GetGrndMoistureMeasurement());
+  DEBUG_LOG("WATER LEVEL: ");
+  DEBUG_LOGLN(sensorManager->WaterTankEmpty());
+  code = sensorManager->SendMeasurements();
+  DEBUG_LOGLN(code);
+  DEBUG_LOGLN("---------------");
 
-  float grndMoistMapped = map(grndMoist, 0, 700, 0, 100);
+  float grndMoist = sensorManager->GetGrndMoistureMeasurement();
+  float grndMoistMapped = map(grndMoist, 0, 775, 0, 100);
+  DEBUG_LOG("GROUND MOISTURE MAPPED: ");
   DEBUG_LOGLN(grndMoistMapped);
 
-  if(profileManager->GrndMoistureBelowThreshold(grndMoistMapped) && motorActive == false){
+  if(profileManager->GrndMoistureBelowMin(grndMoistMapped) && motorActive == false)
+  {
     motorActive = true;
-    DEBUG_LOGLN("Motor Activatie");
   }
-  if(profileManager->GrndMoistureWithinRange(grndMoistMapped) && motorActive == true){
+
+  if(profileManager->GrndMoistureAboveMax(grndMoistMapped) && motorActive == true)
+  {
     motorActive = false;
-    DEBUG_LOGLN("Motor Deactiveert");
   }
-  if(motorActive == true){
+
+  if(motorActive == true && !sensorManager->WaterTankEmpty())
+  {
+    DEBUG_LOGLN("activating motor");
     waterPumpController->ActivateMotor();
   }
 

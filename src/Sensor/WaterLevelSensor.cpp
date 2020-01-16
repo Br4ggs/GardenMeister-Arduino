@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #include "WaterLevelSensor.h"
 
 WaterLevelSensor::WaterLevelSensor()
@@ -8,7 +12,6 @@ WaterLevelSensor::WaterLevelSensor()
 int WaterLevelSensor::MeasureSensor()
 {
     sensorValue = digitalRead(SENSOR_PIN);
-    DEBUG_LOGLN(sensorValue);
     return 1;
 }
 

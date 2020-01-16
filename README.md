@@ -69,6 +69,15 @@ Go ahead and fill in the variables as follows:
 * `"server address"`: ip/address of server, as a string.
 * `server port`: port on which the server recieves http requests, as an integer.
 
+## Download required libraries
+Gardenmeister uses a couple of external libraries you will need to install in order for Gardenmeister to function. It is strongly recommended you use the PlatformIO library browser for this.
+
+Go back to the PlatformIO Quick Access menu and click on `PIO Home > Libraries`. Search and install the following libraries:
+* WiFi101 by Arduino
+* Adafruit Unified Sensor by Adafruit
+* DHT sensor library by Adafruit
+* ArduinoJson by Benoit Blanchon
+
 ## Set up the hardware
 Now that you have the codebase and neccesary plugin to flash the arduino. Go ahead and set up your hardware according to the following diagram:
 
@@ -80,6 +89,8 @@ Once you have your arduino MKR1000 set up, upload and monitor the codebase by on
 ![alt text](img/UploadandMonitor.PNG "Upload and Monitor")
 
 You should see a bunch of output starting to appear in the terminal. After compilation and upload the terminal might ask you to input the name of the serial port the arduino is connected to. If you're not sure which one it is (it will usually be something like COM9 or COM10), you can use the arduino IDE to figure out which port to input.
+
+If the codebase won't compile, check if you installed the required libraries(these are listed in the `platformio.ini` file) and read the error message. If this doesn't help, consider opening an issue on this repository.
 
 ## Additional step: working without serial connection
 Additionally, you can disable serial statements by commenting out the `#define REGULATOR_DEBUG` in the `stdlib.h` file. This will disable all the `DEBUG_LOG()` and `DEBUG_LOGLN()` statements. This is usefull for when you plan to power the arduino with a power source other than the serial connection to a laptop, like a battery for example.

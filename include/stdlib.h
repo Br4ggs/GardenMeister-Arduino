@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #ifndef STDLIB_H
 #define STDLIB_H
 
@@ -5,6 +9,7 @@
 
 //comment this out for production release!
 #define REGULATOR_DEBUG
+//#define NET_DEBUG
 
 #ifdef REGULATOR_DEBUG
  #define DEBUG_LOGLN(x) Serial.println (x)

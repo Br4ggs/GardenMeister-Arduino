@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #include "DHT11SensorController.h"
 
 DHT11SensorController::DHT11SensorController()
@@ -17,8 +21,8 @@ int DHT11SensorController::MeasureSensor()
 
     if(isnan(humidityValue))
         humidityValue = -1;
-
-    return (isnan(humidityValue) || isnan(temperatureValue)) ? -1 : 1;
+    
+    return (temperatureValue == -1 || humidityValue == -1) ? -1 : 1;
 }
 
 float DHT11SensorController::GetSensorData(int type)
