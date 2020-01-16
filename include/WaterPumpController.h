@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #ifndef WATERPUMPCONTROLLER_H
 #define WATERPUMPCONTROLLER_H
 

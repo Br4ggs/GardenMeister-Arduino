@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #ifndef ISENSOR_H
 #define ISENSOR_H
 

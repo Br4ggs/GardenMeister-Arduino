@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #ifndef PROFILEMANAGER_H
 #define PROFILEMANAGER_H
 

@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #include "ProfileManager.h"
 
 ProfileManager::ProfileManager(NetController *net)

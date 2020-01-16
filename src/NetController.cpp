@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #include "NetController.h"
 
 //TODO: wifi password required toggle bool

@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #ifndef GROUNDMOISTURESENSORCONTROLLER_H
 #define GROUNDMOISTURESENSORCONTROLLER_H
 

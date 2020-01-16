@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #include <Arduino.h>
 #include "stdlib.h"
 #include "WaterPumpController.h"
@@ -7,7 +11,7 @@
 
 //NEVER DO ANY INITIALIZATION BEFORE SETUP!!
 
-const long LOOP_DELAY = 2000;
+const long LOOP_DELAY = 1000*60*10;
 bool motorActive = false;
 
 WaterPumpController *waterPumpController;
@@ -33,16 +37,13 @@ void setup() {
   while (code != 200)
   {
     code = profileManager->RegisterRegulator();
-    if (code == 200)
-    {
-      DEBUG_LOGLN("registration succesfull");
-    }
-    else
+    if (code != 200)
     {
       DEBUG_LOGLN("registration failed, retrying in 5 seconds...");
     }
     delay(5000);
   }
+  DEBUG_LOGLN("registration succesfull");
 }
 
 void loop() {
@@ -54,9 +55,7 @@ void loop() {
   DEBUG_LOGLN("----SENSOR-----");
 
   int status = sensorManager->PerformMeasurement();
-  code = sensorManager->SendMeasurements();
   DEBUG_LOGLN(status);
-  DEBUG_LOGLN(code);
   DEBUG_LOG("HUMIDITY: ");
   DEBUG_LOGLN(sensorManager->GetHumidityMeasurement());
   DEBUG_LOG("TEMPERATURE: ");
@@ -65,10 +64,14 @@ void loop() {
   DEBUG_LOGLN(sensorManager->GetGrndMoistureMeasurement());
   DEBUG_LOG("WATER LEVEL: ");
   DEBUG_LOGLN(sensorManager->WaterTankEmpty());
+  code = sensorManager->SendMeasurements();
+  DEBUG_LOGLN(code);
   DEBUG_LOGLN("---------------");
 
   float grndMoist = sensorManager->GetGrndMoistureMeasurement();
   float grndMoistMapped = map(grndMoist, 0, 775, 0, 100);
+  DEBUG_LOG("GROUND MOISTURE MAPPED: ");
+  DEBUG_LOGLN(grndMoistMapped);
 
   if(profileManager->GrndMoistureBelowMin(grndMoistMapped) && motorActive == false)
   {
@@ -82,6 +85,7 @@ void loop() {
 
   if(motorActive == true && !sensorManager->WaterTankEmpty())
   {
+    DEBUG_LOGLN("activating motor");
     waterPumpController->ActivateMotor();
   }
 

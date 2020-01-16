@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #ifndef SENSORMANAGER_H
 #define SENSORMANAGER_H
 

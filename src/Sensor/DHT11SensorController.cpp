@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #include "DHT11SensorController.h"
 
 DHT11SensorController::DHT11SensorController()

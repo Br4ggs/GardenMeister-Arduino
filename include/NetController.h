@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #ifndef NETCONTROLLER_H
 #define NETCONTROLLER_H
 

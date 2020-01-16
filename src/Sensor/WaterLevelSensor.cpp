@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #include "WaterLevelSensor.h"
 
 WaterLevelSensor::WaterLevelSensor()

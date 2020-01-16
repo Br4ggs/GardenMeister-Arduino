@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #include "GroundMoistureSensorController.h"
 
 GroundMoistureSensorController::GroundMoistureSensorController()

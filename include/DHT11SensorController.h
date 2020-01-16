@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #ifndef DHT11SENSORCONTROLLER_H
 #define DHT11SENSORCONTROLLER_H
 

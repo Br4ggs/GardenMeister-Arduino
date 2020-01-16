@@ -1,3 +1,7 @@
+/**
+ * Initial author: Emiel van den Brink
+ **/
+
 #ifndef WATERLEVELSENSOR_H
 #define WATERLEVELSENSOR_H
 
