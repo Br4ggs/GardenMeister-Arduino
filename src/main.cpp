@@ -31,8 +31,9 @@ void setup() {
   profileManager = new ProfileManager(netController);
 
   delay(5000);
-  DEBUG_LOGLN("starting registration");
-  
+
+#ifndef NET_DEBUG
+  DEBUG_LOGLN("starting registration"); 
   int code;
   while (code != 200)
   {
@@ -44,6 +45,7 @@ void setup() {
     delay(5000);
   }
   DEBUG_LOGLN("registration succesfull");
+#endif
 }
 
 void loop() {
